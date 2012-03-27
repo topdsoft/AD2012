@@ -39,6 +39,10 @@ class VehiclesController extends AppController {
  */
 	public function add() {
 		if ($this->request->is('post')) {
+			//drop default weapon row
+			unset($this->request->data['Vehicle']['weaponPosition'][0]);
+			unset($this->request->data['Vehicle']['weapon_id'][0]);
+debug($this->request->data);exit;
 			$this->Vehicle->create();
 			if ($this->Vehicle->save($this->request->data)) {
 				$this->Session->setFlash(__('The vehicle has been saved'));
@@ -56,11 +60,45 @@ class VehiclesController extends AppController {
 		$bd2=array();
 		foreach($bd as $b) $bd2[$b['Body']['id']]=$b['Body'];
 		$this->set('bodyData',$bd2);
+		//chassis data
+		$chassisData=ClassRegistry::init('Chassis')->read();
+		$this->set('chassisData',$chassisData);
+		$chassis=ClassRegistry::init('Chassis')->readL();
+		$this->request->data['Vehicle']['chassis_id']=2;
+		//plant data
 		$powerplants = $this->Vehicle->Powerplant->find('list');
+		$pp=$this->Vehicle->Powerplant->find('all',array('recursive'=>-1));
+		$pp2=array();
+		foreach($pp as $i=>$p) $pp2[$p['Powerplant']['id']]=$p['Powerplant'];
+		$this->set('ppData',$pp2);
+		//tire data
 		$tires = $this->Vehicle->Tire->find('list');
+		$tt=$this->Vehicle->Tire->find('all',array('recursive'=>-1));
+		$tt2=array();
+		foreach($tt as $t) $tt2[$t['Tire']['id']]=$t['Tire'];
+		$this->set('tireData',$tt2);
+		$this->request->data['Vehicle']['crew']=0;
+		$this->request->data['Vehicle']['armorF']=0;
+		$this->request->data['Vehicle']['armorR']=0;
+		$this->request->data['Vehicle']['armorL']=0;
+		$this->request->data['Vehicle']['armorB']=0;
+		$this->request->data['Vehicle']['armorT']=0;
+		$this->request->data['Vehicle']['armorU']=0;
+		//accessories data
 		$accessories = $this->Vehicle->Accessory->find('list');
+		$aa=$this->Vehicle->Accessory->find('all',array('recursive'=>-1));
+		$aa2=array();
+		foreach($aa as $a) {unset($a['Accessory']['description']);$aa2[$a['Accessory']['id']]=$a['Accessory'];}
+		$this->set('accData',$aa2);
+		//weapon data
 		$weapons = $this->Vehicle->Weapon->find('list');
-		$this->set(compact('users', 'bodies', 'powerplants', 'tires', 'accessories', 'weapons'));
+		$this->set('positions',array('F'=>'Front','B'=>'Back','R'=>'Right','L'=>'Left','T'=>'Top'));
+		$ww=$this->Vehicle->Weapon->find('all',array('recursive'=>-1));
+		$ww2=array();
+		foreach($ww as $w) {unset($w['Weapon']['description']);$ww2[$w['Weapon']['id']]=$w['Weapon'];}
+		$this->set('weaponData',$ww2);
+		
+		$this->set(compact('users', 'bodies', 'powerplants', 'tires', 'accessories', 'weapons','chassis'));
 		$this->set('money',20000);
 	}
 

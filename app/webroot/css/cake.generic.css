@@ -155,7 +155,7 @@ th a.desc:after {
 	content: ' ⇡';
 }
 table tr td {
-	padding: 6px;
+	padding: 5px;
 	text-align: left;
 	vertical-align: top;
 	border-bottom:1px solid #ddd;
@@ -170,6 +170,20 @@ td.actions {
 table td.actions a {
 	margin: 0px 6px;
 	padding:2px 5px;
+}
+table label {
+	font-size: 100%;
+}
+table select {
+	font-size: 100%;
+}
+.numinput {
+	font-size: 90%;
+	width: 50px;
+}
+table div.input {
+	padding: 0;
+	margin-bottom:0;
 }
 
 /* SQL log */
@@ -260,7 +274,7 @@ form {
 	width: 95%;
 }
 fieldset {
-	border: none;
+/*	border: none;*/
 	margin-bottom: 1em;
 	padding: 16px 10px;
 }
@@ -362,8 +376,19 @@ form .submit input[type=submit] {
 	text-shadow: rgba(0, 0, 0, 0.5) 0px -1px 0px;
 	padding: 8px 10px;
 }
+form .submit input[type=submit][disabled]{
+	background: red;
+}
 form .submit input[type=submit]:hover {
 	background: #5BA150;
+	cursor:pointer;
+}
+form .submit input[type=submit][disabled]:hover {
+	background: red;
+	cursor:default;
+}
+form button {
+	cursor:pointer;
 }
 /* Form errors */
 form .error {
