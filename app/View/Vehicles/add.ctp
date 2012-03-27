@@ -1,11 +1,21 @@
 <div class="vehicles form">
+<?php echo $this->Html->script(array('jquery-1.6.4.min'));?>
 <?php echo $this->Form->create('Vehicle');?>
 	<fieldset>
-		<legend><?php echo __('Add Vehicle'); ?></legend>
+		<legend><?php echo __('Create New Vehicle'); ?></legend>
 	<?php
 		echo $this->Form->input('name');
-		echo $this->Form->input('user_id');
-		echo $this->Form->input('body_id');
+		echo '<fieldset>';
+		echo $this->Form->input('body_id',array('onchange'=>'changeBody()'));
+		echo 'Body Cost:<span id="bodyCost"></span>';
+		echo '<table>';
+		echo '<tr><th></th><th>Capacity</th><th>Total</th><th>Remaining</th></tr>';
+		echo "<tr><td>Space</td> <td id='capSpace'></td> <td id='totalSpace'></td> <td id='remainSpace'></td> </tr>";
+		echo "<tr><td>Weight</td> <td id='capWeight'></td> <td id='totalWeight'></td> <td id='remainWeight'></td> </tr>";
+		echo "<tr><td>Cost</td><td>$money</td><td id='totalCost'>0</td><td id='remainCost'>$money</td></tr>";
+		echo '</table>';
+		echo '</fieldset>';
+/*		echo $this->Form->input('user_id');
 		echo $this->Form->input('crew');
 		echo $this->Form->input('powerplant_id');
 		echo $this->Form->input('chassis');
@@ -23,27 +33,74 @@
 		echo $this->Form->input('armorU');
 		echo $this->Form->input('cost');
 		echo $this->Form->input('Accessory');
-		echo $this->Form->input('Weapon');
+		echo $this->Form->input('Weapon');*/
+//debug($bodyData);
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit'));?>
 </div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
+<script type='text/javascript'>
+	//pass php array to javascript
+	var jsArray = [];
+	<?php
+		foreach($bodyData as $i=>$b) {
+			//loop and pass each array to javascript
+			echo "jsArray[$i]=[];\n";
+			//drop name
+			unset($b['name']);
+			foreach ($b as $j=>$d) echo "jsArray[$i]['$j']=$d;";
+		}//end foreach
+	?>
 
-		<li><?php echo $this->Html->link(__('List Vehicles'), array('action' => 'index'));?></li>
-		<li><?php echo $this->Html->link(__('List Users'), array('controller' => 'users', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New User'), array('controller' => 'users', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Bodies'), array('controller' => 'bodies', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Body'), array('controller' => 'bodies', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Powerplants'), array('controller' => 'powerplants', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Powerplant'), array('controller' => 'powerplants', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Tires'), array('controller' => 'tires', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Tire'), array('controller' => 'tires', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Accessories'), array('controller' => 'accessories', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Accessory'), array('controller' => 'accessories', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Weapons'), array('controller' => 'weapons', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Weapon'), array('controller' => 'weapons', 'action' => 'add')); ?> </li>
-	</ul>
-</div>
+	function changeBody() {
+		var i=$("#VehicleBodyId").val();
+		if(i==0) {
+			//no body selected
+			$("#bodyCost").text(0);
+			$("#capSpace").text('');
+			$("#capWeight").text('');
+			$(".submit :input").attr("disabled",true);
+		} else {
+			$("#bodyCost").text(jsArray[i]['cost']);
+			$("#capSpace").text(jsArray[i]['maxSpace']);
+			$("#capWeight").text(jsArray[i]['maxWeight']);
+			$(".submit :input").attr("disabled",false);
+		}//endif
+		calcSpace();
+		calcCost();
+		calcWeight();
+	}
+	
+	function calcSpace() {
+		//calculate the space remaining and total
+		var total=0;
+		var cap=$("#capSpace").text();
+		var remain=cap-total;
+		$("#totalSpace").text(total);
+		$("#remainSpace").text(remain);
+		if (remain<0) $(".submit :input").attr("disabled",true);
+	}
+	
+	function calcCost() {
+		//calculate the total space and remaining budget
+		var total=0;
+		total+=parseInt($("#bodyCost").text());
+		
+		var cap=<?php echo $money;?>;
+		var remain=cap-total;
+		$("#totalCost").text(total);
+		$("#remainCost").text(remain);
+		if (remain<0) $(".submit :input").attr("disabled",true);
+	}
+
+	function calcWeight() {
+		//calculate the total weight and remaining
+		var total=0;
+		
+		var cap=$("#capWeight").text();
+		var remain=cap-total;
+		$("#totalWeight").text(total);
+		$("#remainWeight").text(remain);
+		if (remain<0) $(".submit :input").attr("disabled",true);
+	}
+</script>

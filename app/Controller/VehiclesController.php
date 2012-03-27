@@ -49,11 +49,19 @@ class VehiclesController extends AppController {
 		}
 		$users = $this->Vehicle->User->find('list');
 		$bodies = $this->Vehicle->Body->find('list');
+		$bodies[0]='(none)';
+		$this->request->data['Vehicle']['body_id']=0;
+		//get all body data
+		$bd=$this->Vehicle->Body->find('all',array('recursive'=>-1));
+		$bd2=array();
+		foreach($bd as $b) $bd2[$b['Body']['id']]=$b['Body'];
+		$this->set('bodyData',$bd2);
 		$powerplants = $this->Vehicle->Powerplant->find('list');
 		$tires = $this->Vehicle->Tire->find('list');
 		$accessories = $this->Vehicle->Accessory->find('list');
 		$weapons = $this->Vehicle->Weapon->find('list');
 		$this->set(compact('users', 'bodies', 'powerplants', 'tires', 'accessories', 'weapons'));
+		$this->set('money',20000);
 	}
 
 /**
