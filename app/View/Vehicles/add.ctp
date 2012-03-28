@@ -16,6 +16,8 @@
 		echo "<tr><td>Cost</td><td>$money</td><td id='totalCost'>0</td><td id='remainCost'>$money</td></tr>";
 		echo '</table>';
 		echo '</fieldset>';
+		echo $this->Form->input('cost',array('type'=>'hidden'));
+		echo $this->Form->input('plantHp',array('type'=>'hidden','value'=>$ppData[1]['hp']));
 /*		echo $this->Form->input('user_id');
 		
 		
@@ -31,15 +33,18 @@
 		echo $this->Form->input('armorL');
 		echo $this->Form->input('armorT');
 		echo $this->Form->input('armorU');
-		echo $this->Form->input('cost');
 		echo $this->Form->input('Accessory');
 		echo $this->Form->input('Weapon');*/
-//debug($weaponData);
+//debug($suspension);
 	?>
 	<div style="overflow-y:auto; ">
 	<table id="mytable">
 		<tr><th></th><th></th><th></th><th>Spaces</th><th>Weight</th><th>Cost</th></tr>
-		<tr><td rowspan="5"></td><td><?php echo $this->Form->input('chassis_id',array('between'=>'</td><td>','onchange'=>'changeBody()')); ?></td><td>-</td><td>-</td><td id="bodyCost" class="cost"></td></tr>
+		<tr><td rowspan="6"></td><td><?php echo $this->Form->input('chassis_id',array('between'=>'</td><td>','onchange'=>'changeBody()')); ?></td><td>-</td><td>-</td><td id="bodyCost" class="cost"></td></tr>
+		<tr><td><?php echo $this->Form->input('suspension_id',array('between'=>'</td><td>','onchange'=>'changeBody()')); ?></td>
+			<td>-</td>
+			<td>-</td>
+			<td id="susCost" class="cost">0</td></tr>
 		<tr><td><?php echo $this->Form->input('powerplant_id',array('between'=>'</td><td>','onchange'=>'changePP()')); ?></td>
 			<td id="ppSpace" class="space"><?php echo $ppData[1]['space'] ?></td>
 			<td id="ppWeight" class="weight"><?php echo $ppData[1]['weight'] ?></td>
@@ -116,17 +121,21 @@
 		foreach($bodyData as $i=>$b) {
 			//loop and pass each array to javascript
 			echo "jsArray[$i]=[];\n";
-			//drop name
-			unset($b['name']);
-			foreach ($b as $j=>$d) echo "jsArray[$i]['$j']=$d;";
+			foreach ($b as $j=>$d) echo "jsArray[$i]['$j']='$d';";
 		}//end foreach
 	?>
 	var jsChassis = [];
 	<?php
 		foreach($chassisData as $i=>$c) {
 			echo "jsChassis[$i]=[];\n";
-			unset($c['name']);
-			foreach ($c as $j=>$d) echo "jsChassis[$i]['$j']=$d;";
+			foreach ($c as $j=>$d) echo "jsChassis[$i]['$j']='$d';";
+		}
+	?>
+	var jsSus = [];
+	<?php
+		foreach($susData as $i=>$c) {
+			echo "jsSus[$i]=[];\n";
+			foreach ($c as $j=>$d) echo "jsSus[$i]['$j']='$d';";
 		}
 	?>
 	var jsPP = [];
@@ -173,6 +182,9 @@
 			$("#capSpace").text(jsArray[i]['maxSpace']);
 			$("#capWeight").text(parseInt(jsArray[i]['maxWeight']*jsChassis[c]['load']));
 			$(".submit :input").attr("disabled",false);
+			//get suspension_id
+			var s=$("#VehicleSuspensionId").val();
+			$("#susCost").text(jsArray[i]['cost']*jsSus[s]['cost']);
 			//deal with armor change
 			armorCost=jsArray[i]['armorCost'];
 			armorWeight=jsArray[i]['armorWeight'];
@@ -193,6 +205,7 @@
 		$("#ppSpace").text(jsPP[i]['space']);
 		$("#ppWeight").text(jsPP[i]['weight']);
 		$("#ppCost").text(jsPP[i]['cost']);
+		$("#VehiclePlantHp").val(jsPP[i]['hp']);
 		calcSpace();
 		calcCost();
 		calcWeight();
@@ -265,6 +278,7 @@
 		var cap=<?php echo $money;?>;
 		var remain=cap-total;
 		$("#totalCost").text(total);
+		$("#VehicleCost").val(total);
 		$("#remainCost").text(remain);
 		if (remain<0) $(".submit :input").attr("disabled",true);
 	}

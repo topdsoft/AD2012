@@ -29,7 +29,14 @@ class VehiclesController extends AppController {
 		if (!$this->Vehicle->exists()) {
 			throw new NotFoundException(__('Invalid vehicle'));
 		}
-		$this->set('vehicle', $this->Vehicle->read(null, $id));
+		$vehicleData=$this->Vehicle->read(null, $id);
+		$this->set('vehicle', $vehicleData);
+		//chassis data
+		$chassisData=ClassRegistry::init('Chassis')->read();
+		$this->set('chassisData',$chassisData[$vehicleData['Vehicle']['chassis_id']]);
+		//suspension data
+		$susData=ClassRegistry::init('Suspension')->read();
+		$this->set('susData',$susData[$vehicleData['Vehicle']['suspension_id']]);
 	}
 
 /**
@@ -42,10 +49,56 @@ class VehiclesController extends AppController {
 			//drop default weapon row
 			unset($this->request->data['Vehicle']['weaponPosition'][0]);
 			unset($this->request->data['Vehicle']['weapon_id'][0]);
-debug($this->request->data);exit;
+			unset($this->request->data['Vehicle']['acc_id'][0]);
+			//get tire data
+			$tire=$this->Vehicle->Tire->find('first',array('recursive'=>-1,'conditions'=>array('Tire.id'=>$this->request->data['Vehicle']['tire_id'])));
+			$this->request->data['Vehicle']['tireLFhp']=$this->request->data['Vehicle']['tireRFhp']=$this->request->data['Vehicle']['tireLBhp']=
+				$this->request->data['Vehicle']['tireRBhp']=$tire['Tire']['hp'];
+			//fill armor hp
+			$this->request->data['Vehicle']['hpF']=$this->request->data['Vehicle']['armorF'];
+			$this->request->data['Vehicle']['hpB']=$this->request->data['Vehicle']['armorB'];
+			$this->request->data['Vehicle']['hpR']=$this->request->data['Vehicle']['armorR'];
+			$this->request->data['Vehicle']['hpL']=$this->request->data['Vehicle']['armorL'];
+			$this->request->data['Vehicle']['hpT']=$this->request->data['Vehicle']['armorT'];
+			$this->request->data['Vehicle']['hpU']=$this->request->data['Vehicle']['armorU'];
+			//setup powerplant data
+			$this->request->data['Vehicle']['plantCharge']=100;
+//debug($this->request->data);debug($tire);exit;
 			$this->Vehicle->create();
 			if ($this->Vehicle->save($this->request->data)) {
-				$this->Session->setFlash(__('The vehicle has been saved'));
+				//save ok
+				$vid=$this->Vehicle->getLastInsertId();
+				//add weapons
+				foreach($this->request->data['Vehicle']['weapon_id'] as $i=>$weapon_id){
+					//add weapon
+					$weaponData=$this->Vehicle->Weapon->find('first',array('conditions'=>array('Weapon.id'=>$weapon_id),'recursive'=>-1));//debug($weapon_id);
+					if($weaponData){
+						//save weapon
+						$this->Vehicle->VehiclesWeapon->create();//debug($weaponData);
+						$this->Vehicle->VehiclesWeapon->save(array(
+							'vehicle_id'=>$vid,
+							'weapon_id'=>$weapon_id,
+							'position'=>$this->request->data['Vehicle']['weaponPosition'][$i],
+							'ammo'=>$weaponData['Weapon']['ammo'],
+							'hp'=>$weaponData['Weapon']['hp']
+						));
+					}
+				}//end foreach weapon
+				//add accessories
+				foreach($this->request->data['Vehicle']['acc_id'] as $i=>$acc_id){
+					//add acc
+					$accData=$this->Vehicle->Accessory->find('first',array('conditions'=>array('Accessory.id'=>$acc_id),'recursive'=>-1));
+					if($weaponData){
+						//save accessory
+						$this->Vehicle->AccessoriesVehicle->create();
+						$this->Vehicle->AccessoriesVehicle->save(array(
+							'vehicle_id'=>$vid,
+							'accessory_id'=>$acc_id,
+							'hp'=>$accData['Accessory']['hp']
+						));
+					}
+				}//end foreach accessory
+				$this->Session->setFlash(__('The vehicle has been saved'));//exit;
 				$this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The vehicle could not be saved. Please, try again.'));
@@ -65,6 +118,11 @@ debug($this->request->data);exit;
 		$this->set('chassisData',$chassisData);
 		$chassis=ClassRegistry::init('Chassis')->readL();
 		$this->request->data['Vehicle']['chassis_id']=2;
+		//suspension data
+		$susData=ClassRegistry::init('Suspension')->read();
+		$this->set('susData',$susData);
+		$suspensions=ClassRegistry::init('Suspension')->readL();
+//		$this->request->data['Vehicle']['chassis']='S';
 		//plant data
 		$powerplants = $this->Vehicle->Powerplant->find('list');
 		$pp=$this->Vehicle->Powerplant->find('all',array('recursive'=>-1));
@@ -98,7 +156,7 @@ debug($this->request->data);exit;
 		foreach($ww as $w) {unset($w['Weapon']['description']);$ww2[$w['Weapon']['id']]=$w['Weapon'];}
 		$this->set('weaponData',$ww2);
 		
-		$this->set(compact('users', 'bodies', 'powerplants', 'tires', 'accessories', 'weapons','chassis'));
+		$this->set(compact('users', 'bodies', 'powerplants', 'tires', 'accessories', 'weapons','chassis','suspensions'));
 		$this->set('money',20000);
 	}
 

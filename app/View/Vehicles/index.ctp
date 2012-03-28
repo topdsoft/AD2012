@@ -2,19 +2,12 @@
 	<h2><?php echo __('Vehicles');?></h2>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
-			<th><?php echo $this->Paginator->sort('id');?></th>
 			<th><?php echo $this->Paginator->sort('name');?></th>
-			<th><?php echo $this->Paginator->sort('user_id');?></th>
+			<th><?php echo $this->Paginator->sort('user_id','Owner');?></th>
 			<th><?php echo $this->Paginator->sort('body_id');?></th>
 			<th><?php echo $this->Paginator->sort('crew');?></th>
 			<th><?php echo $this->Paginator->sort('powerplant_id');?></th>
-			<th><?php echo $this->Paginator->sort('chassis');?></th>
-			<th><?php echo $this->Paginator->sort('suspension');?></th>
 			<th><?php echo $this->Paginator->sort('tire_id');?></th>
-			<th><?php echo $this->Paginator->sort('tireLFhp');?></th>
-			<th><?php echo $this->Paginator->sort('tireRFhp');?></th>
-			<th><?php echo $this->Paginator->sort('tireLBhp');?></th>
-			<th><?php echo $this->Paginator->sort('tireRBhp');?></th>
 			<th><?php echo $this->Paginator->sort('armorF');?></th>
 			<th><?php echo $this->Paginator->sort('armorR');?></th>
 			<th><?php echo $this->Paginator->sort('armorB');?></th>
@@ -28,7 +21,6 @@
 	$i = 0;
 	foreach ($vehicles as $vehicle): ?>
 	<tr>
-		<td><?php echo h($vehicle['Vehicle']['id']); ?>&nbsp;</td>
 		<td><?php echo h($vehicle['Vehicle']['name']); ?>&nbsp;</td>
 		<td>
 			<?php echo $this->Html->link($vehicle['User']['username'], array('controller' => 'users', 'action' => 'view', $vehicle['User']['id'])); ?>
@@ -36,19 +28,13 @@
 		<td>
 			<?php echo $this->Html->link($vehicle['Body']['name'], array('controller' => 'bodies', 'action' => 'view', $vehicle['Body']['id'])); ?>
 		</td>
-		<td><?php echo h($vehicle['Vehicle']['crew']); ?>&nbsp;</td>
+		<td><?php echo h($vehicle['Vehicle']['crew']+1); ?>&nbsp;</td>
 		<td>
 			<?php echo $this->Html->link($vehicle['Powerplant']['name'], array('controller' => 'powerplants', 'action' => 'view', $vehicle['Powerplant']['id'])); ?>
 		</td>
-		<td><?php echo h($vehicle['Vehicle']['chassis']); ?>&nbsp;</td>
-		<td><?php echo h($vehicle['Vehicle']['suspension']); ?>&nbsp;</td>
 		<td>
 			<?php echo $this->Html->link($vehicle['Tire']['name'], array('controller' => 'tires', 'action' => 'view', $vehicle['Tire']['id'])); ?>
 		</td>
-		<td><?php echo h($vehicle['Vehicle']['tireLFhp']); ?>&nbsp;</td>
-		<td><?php echo h($vehicle['Vehicle']['tireRFhp']); ?>&nbsp;</td>
-		<td><?php echo h($vehicle['Vehicle']['tireLBhp']); ?>&nbsp;</td>
-		<td><?php echo h($vehicle['Vehicle']['tireRBhp']); ?>&nbsp;</td>
 		<td><?php echo h($vehicle['Vehicle']['armorF']); ?>&nbsp;</td>
 		<td><?php echo h($vehicle['Vehicle']['armorR']); ?>&nbsp;</td>
 		<td><?php echo h($vehicle['Vehicle']['armorB']); ?>&nbsp;</td>
