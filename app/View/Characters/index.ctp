@@ -2,22 +2,22 @@
 	<h2><?php echo __('Characters');?></h2>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
-			<th><?php echo $this->Paginator->sort('id');?></th>
 			<th><?php echo $this->Paginator->sort('name');?></th>
 			<th><?php echo $this->Paginator->sort('created');?></th>
 			<th><?php echo $this->Paginator->sort('user_id');?></th>
 			<th><?php echo $this->Paginator->sort('cash');?></th>
 			<th><?php echo $this->Paginator->sort('health');?></th>
-			<th><?php echo $this->Paginator->sort('drivingSkill');?></th>
-			<th><?php echo $this->Paginator->sort('mechanicSkill');?></th>
-			<th><?php echo $this->Paginator->sort('gunnerSkill');?></th>
+			<th><?php echo $this->Paginator->sort('experience');?></th>
+			<th><?php echo $this->Paginator->sort('prestige');?></th>
+			<th><?php echo $this->Paginator->sort('drivingSkill','Driving');?></th>
+			<th><?php echo $this->Paginator->sort('mechanicSkill','Mechanic');?></th>
+			<th><?php echo $this->Paginator->sort('gunnerSkill','Gunner');?></th>
 			<th class="actions"><?php echo __('Actions');?></th>
 	</tr>
 	<?php
 	$i = 0;
 	foreach ($characters as $character): ?>
 	<tr>
-		<td><?php echo h($character['Character']['id']); ?>&nbsp;</td>
 		<td><?php echo h($character['Character']['name']); ?>&nbsp;</td>
 		<td><?php echo h($character['Character']['created']); ?>&nbsp;</td>
 		<td>
@@ -25,6 +25,8 @@
 		</td>
 		<td><?php echo h($character['Character']['cash']); ?>&nbsp;</td>
 		<td><?php echo h($character['Character']['health']); ?>&nbsp;</td>
+		<td><?php echo h($character['Character']['experience']); ?>&nbsp;</td>
+		<td><?php echo h($character['Character']['prestige']); ?>&nbsp;</td>
 		<td><?php echo h($character['Character']['drivingSkill']); ?>&nbsp;</td>
 		<td><?php echo h($character['Character']['mechanicSkill']); ?>&nbsp;</td>
 		<td><?php echo h($character['Character']['gunnerSkill']); ?>&nbsp;</td>

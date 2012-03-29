@@ -31,6 +31,16 @@
 			<?php echo h($character['Character']['health']); ?>
 			&nbsp;
 		</dd>
+		<dt><?php echo __('Experience'); ?></dt>
+		<dd>
+			<?php echo h($character['Character']['experience']); ?>
+			&nbsp;
+		</dd>
+		<dt><?php echo __('Prestige'); ?></dt>
+		<dd>
+			<?php echo h($character['Character']['prestige']); ?>
+			&nbsp;
+		</dd>
 		<dt><?php echo __('DrivingSkill'); ?></dt>
 		<dd>
 			<?php echo h($character['Character']['drivingSkill']); ?>

@@ -40,15 +40,22 @@ class CharactersController extends AppController {
 	public function add() {
 		if ($this->request->is('post')) {
 			$this->Character->create();
+			$this->request->data['Character']['user_id']=$this->Auth->user('id');
 			if ($this->Character->save($this->request->data)) {
 				$this->Session->setFlash(__('The character has been saved'));
 				$this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The character could not be saved. Please, try again.'));
 			}
+		} else {
+			//set defaults
+			$this->request->data['Character']['drivingSkill']=0;
+			$this->request->data['Character']['mechanicSkill']=0;
+			$this->request->data['Character']['gunnerSkill']=0;
 		}
-		$users = $this->Character->User->find('list');
-		$this->set(compact('users'));
+		$this->set('startingSkillPoints',$this->Character->startingSkillPoints);
+		//$users = $this->Character->User->find('list');
+		//$this->set(compact('users'));
 	}
 
 /**

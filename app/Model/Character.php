@@ -12,6 +12,7 @@ class Character extends AppModel {
  * @var string
  */
 	public $displayField = 'name';
+	public $startingSkillPoints=3;
 /**
  * Validation rules
  *
@@ -21,7 +22,7 @@ class Character extends AppModel {
 		'name' => array(
 			'notempty' => array(
 				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
+				'message' => 'Please enter a name for your character',
 				//'allowEmpty' => false,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
