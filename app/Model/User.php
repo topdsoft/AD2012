@@ -13,6 +13,10 @@ class User extends AppModel {
  * @var string
  */
 	public $displayField = 'username';
+	function beforeSave($options = array()) {
+		if(isset($this->data['User']['password']))$this->data['User']['password'] = AuthComponent::password($this->data['User']['password']);
+		return true;
+	}
 /**
  * Validation rules
  *

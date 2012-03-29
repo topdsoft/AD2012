@@ -15,6 +15,8 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
+
+
 * {
 	margin:0;
 	padding:0;
@@ -22,19 +24,19 @@
 
 /** General Style Info **/
 body {
-	background: #003d4c;
-	color: #fff;
+	background: #8d001a;
+	color: #ddd;
 	font-family:'lucida grande',verdana,helvetica,arial,sans-serif;
 	font-size:90%;
 	margin: 0;
 }
 a {
-	color: #003d4c;
+	color: #4060bf;
 	text-decoration: underline;
 	font-weight: bold;
 }
 a:hover {
-	color: #367889;
+	color: #8296d6;
 	text-decoration:none;
 }
 a img {
@@ -44,21 +46,31 @@ h1, h2, h3, h4 {
 	font-weight: normal;
 	margin-bottom:0.5em;
 }
-h1 {
+/*h1 {
 	background:#fff;
 	color: #003d4c;
 	font-size: 100%;
-}
+}*/
 h2 {
-	background:#fff;
-	color: #e32;
-	font-family:'Gill Sans','lucida grande', helvetica, arial, sans-serif;
+	background: #888;
+/*	font-family:'Gill Sans','lucida grande', helvetica, arial, sans-serif;*/
 	font-size: 190%;
+	color: #eee;
+	font-weight: bold;
+	padding: 1px 10px;
+	-moz-box-shadow: 4px 4px 10px -1px black; 
+	-webkit-box-shadow: 4px 4px 10px -1px black;
+	-box-shadow: 4px 4px 10px -1px black;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
 }
 h3 {
 	color: #2c6877;
 	font-family:'Gill Sans','lucida grande', helvetica, arial, sans-serif;
 	font-size: 165%;
+	font-weight: bold;
+	border-bottom: 1px solid #2c6877;
 }
 h4 {
 	color: #993;
@@ -79,7 +91,7 @@ p {
 #header{
 	padding: 10px 20px;
 }
-#header h1 {
+/*#header h1 {
 	line-height:20px;
 	background: #003d4c url('../img/cake.icon.png') no-repeat left;
 	color: #fff;
@@ -95,18 +107,47 @@ p {
 	color: #fff;
 	background: #003d4c;
 	text-decoration: underline;
+}*/
+#usernav{
+	float:right;
+	background: #333;
+	padding: 10px;
+	-moz-box-shadow: 4px 4px 10px -1px black; 
+	-webkit-box-shadow: 4px 4px 10px -1px black;
+	-box-shadow: 4px 4px 10px -1px black;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
 }
+#tname {
+	font-size:150%;
+	text-decoration: none;
+	float:left;
+}
+
 #content{
-	background: #fff;
+	background: #333;
 	clear: both;
-	color: #333;
-	padding: 10px 20px 40px 20px;
+	color: #777;
+	padding: 5px;
+/*	padding: 10px 20px 40px 20px;*/
+	margin: 5px;
+	-moz-box-shadow: 4px 4px 10px -1px black; 
+	-webkit-box-shadow: 4px 4px 10px -1px black;
+	-box-shadow: 4px 4px 10px -1px black;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
 	overflow: auto;
 }
 #footer {
-	clear: both;
-	padding: 6px 10px;
-	text-align: right;
+/*	clear: both;*/
+	padding: 2px 10px;
+	float: right;
+}
+#footer2 {
+/*	clear: both;*/
+	text-align: center;
 }
 
 /** containers **/
@@ -114,14 +155,14 @@ div.form,
 div.index,
 div.view {
 	float:right;
-	width:76%;
+	width:80%;
 	border-left:1px solid #666;
-	padding:10px 2%;
+	padding:10px 1%;
 }
 div.actions {
 	float:left;
 	width:16%;
-	padding:10px 1.5%;
+	padding:10px 10px;
 }
 div.actions h3 {
 	padding-top:0;
@@ -139,7 +180,7 @@ table {
 }
 th {
 	border:0;
-	border-bottom:2px solid #555;
+	border-bottom:2px solid #333;
 	text-align: left;
 	padding:4px;
 }
@@ -159,9 +200,13 @@ table tr td {
 	text-align: left;
 	vertical-align: top;
 	border-bottom:1px solid #ddd;
+	border-right:1px solid #ddd;
 }
 table tr:nth-child(even) {
 	background: #f9f9f9;
+}
+table tr:nth-child(odd) {
+	background: #f2f2f2;
 }
 td.actions {
 	text-align: center;
@@ -201,7 +246,7 @@ table div.input {
 
 /** Paging **/
 .paging {
-	background:#fff;
+/*	background:#fff;*/
 	color: #ccc;
 	margin-top: 1em;
 	clear:both;
@@ -215,14 +260,14 @@ table div.input {
 }
 .paging > span {
 	display: inline-block;
-	border: 1px solid #ccc;
+	border: 1px solid #555;
 	border-left: 0;
 }
 .paging > span:hover {
 	background: #efefef;
 }
 .paging .prev {
-	border-left: 1px solid #ccc;
+	border-left: 1px solid #555;
 	-moz-border-radius: 4px 0 0 4px;
 	-webkit-border-radius: 4px 0 0 4px;
 	border-radius: 4px 0 0 4px;
@@ -233,7 +278,7 @@ table div.input {
 	border-radius: 0 4px 4px 0;
 }
 .paging .disabled {
-	color: #ddd;
+	color: #444;
 }
 .paging .disabled:hover {
 	background: transparent;
@@ -247,21 +292,22 @@ table div.input {
 dl {
 	line-height: 2em;
 	margin: 0em 0em;
-	width: 60%;
+	background: #f9f9f9;
+/*	width: 80%;*/
 }
 dl dd:nth-child(4n+2),
 dl dt:nth-child(4n+1) {
-	background: #f4f4f4;
+	background: #f2f2f2;
 }
 
 dt {
 	font-weight: bold;
 	padding-left: 4px;
 	vertical-align: top;
-	width: 10em;
+	width: 15em;
 }
 dd {
-	margin-left: 10em;
+	margin-left: 15em;
 	margin-top: -2em;
 	vertical-align: top;
 }
@@ -269,23 +315,39 @@ dd {
 /** Forms **/
 form {
 	clear: both;
-	margin-right: 20px;
+/*	margin-right: 20px;
 	padding: 0;
-	width: 95%;
+	width: 95%;*/
 }
 fieldset {
-/*	border: none;*/
+	border: none;
+	background: #777;
 	margin-bottom: 1em;
-	padding: 16px 10px;
+	padding: 16px 10px 5px 10px;
+	-moz-box-shadow: 4px 4px 10px -1px black; 
+	-webkit-box-shadow: 4px 4px 10px -1px black;
+	-box-shadow: 4px 4px 10px -1px black;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
 }
 fieldset legend {
-	color: #e32;
+	background: #888;
+	color: #eee;
 	font-size: 160%;
 	font-weight: bold;
+	padding: 2px 10px;
+	-moz-box-shadow: 4px 4px 10px -1px black; 
+	-webkit-box-shadow: 4px 4px 10px -1px black;
+	-box-shadow: 4px 4px 10px -1px black;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
 }
 fieldset fieldset {
 	margin-top: 0;
 	padding: 10px 0 0;
+	background: #aaa;
 }
 fieldset fieldset legend {
 	font-size: 120%;

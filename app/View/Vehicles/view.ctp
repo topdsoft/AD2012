@@ -1,15 +1,20 @@
 <div class="vehicles view">
 <?php echo $this->Html->script(array('jquery-1.6.4.min'));?>
 <h2><?php  echo h($vehicle['Vehicle']['name']);?></h2>
+	<fieldset>
 	<dl>
 		<dt><?php echo __('Owner'); ?></dt>
 		<dd>
 			<?php echo $this->Html->link($vehicle['User']['username'], array('controller' => 'users', 'action' => 'view', $vehicle['User']['id'])); ?>
 			&nbsp;
 		</dd>
+		<dt><?php echo __('Original Cost'); ?></dt>
+		<dd>
+			<?php echo $vehicle['Vehicle']['cost']; ?>
+			&nbsp;
+		</dd>
 	</dl>
-	<fieldset>
-		<table>
+		<table cellspacing = "0">
 		<tr><th></th><th>Capacity</th><th>Total</th><th>Remaining</th></tr>
 		<tr><td>Space</td><td id='capSpace'><?php echo $vehicle['Body']['maxSpace'].'('.$vehicle['Body']['maxCargoSpace'].')'; ?></td> 
 			<td id='totalSpace'></td> <td id='remainSpace'></td> </tr>
@@ -17,7 +22,7 @@
 			<td id='totalWeight'></td> <td id='remainWeight'></td> </tr>
 		</table>
 	</fieldset>
-	<table>
+	<table cellspacing = "0">
 		<tr><th></th><th></th><th></th><th>Space</th><th>Weight</th><th>Cost</th></tr>
 		<tr><td></td><td>Body</td><td><?php echo $vehicle['Body']['name']; ?></td><td></td><td></td><td class="cost"><?php echo $vehicle['Body']['cost']; ?></td></tr>
 		<tr><td></td><td>Chassis</td><td><?php echo $chassisData['name']; ?></td><td></td><td></td>
