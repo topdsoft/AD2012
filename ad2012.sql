@@ -115,12 +115,14 @@ CREATE TABLE `characters` (
   `user_id` int(10) unsigned NOT NULL,
   `cash` int(11) NOT NULL DEFAULT '0',
   `health` smallint(6) NOT NULL DEFAULT '100',
+  `experience` int(11) NOT NULL DEFAULT '0',
+  `prestige` int(11) NOT NULL DEFAULT '0',
   `drivingSkill` int(11) NOT NULL DEFAULT '0',
   `mechanicSkill` int(11) NOT NULL DEFAULT '0',
   `gunnerSkill` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -129,6 +131,7 @@ CREATE TABLE `characters` (
 
 LOCK TABLES `characters` WRITE;
 /*!40000 ALTER TABLE `characters` DISABLE KEYS */;
+INSERT INTO `characters` VALUES (1,'Buba','2012-03-29 09:41:50',1,0,100,0,0,1,1,1);
 /*!40000 ALTER TABLE `characters` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -346,4 +349,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-03-28 19:08:01
+-- Dump completed on 2012-03-29 16:53:54
