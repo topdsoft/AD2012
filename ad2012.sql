@@ -58,7 +58,7 @@ CREATE TABLE `accessories_vehicles` (
   `hp` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `vehicle_id` (`vehicle_id`,`accessory_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -67,6 +67,7 @@ CREATE TABLE `accessories_vehicles` (
 
 LOCK TABLES `accessories_vehicles` WRITE;
 /*!40000 ALTER TABLE `accessories_vehicles` DISABLE KEYS */;
+INSERT INTO `accessories_vehicles` VALUES (4,11,1,1),(5,12,1,1),(6,13,1,1),(7,13,3,1);
 /*!40000 ALTER TABLE `accessories_vehicles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -96,7 +97,7 @@ CREATE TABLE `bodies` (
 
 LOCK TABLES `bodies` WRITE;
 /*!40000 ALTER TABLE `bodies` DISABLE KEYS */;
-INSERT INTO `bodies` VALUES (1,'Sub-Compact',1600,10,0,10,5,800),(2,'Compact',1900,12,0,12,6,1000),(3,'Mid Size',2200,15,0,15,7,1200),(4,'Full Size',2500,18,0,18,8,1450),(5,'Luxury Sedan',2900,22,0,22,9,1950),(6,'SM Station Wagon',2300,14,4,15,8,1300),(7,'LG Station Wagon',2600,16,6,18,9,1600),(8,'SM Pickup',2800,12,10,12,6,1200),(9,'LG Pickup',3100,16,14,15,8,1500),(10,'Van',3100,24,6,20,10,1550);
+INSERT INTO `bodies` VALUES (1,'Sub-Compact',1600,8,0,10,5,800),(2,'Compact',1900,10,0,12,6,1000),(3,'Mid Size',2200,13,0,15,7,1200),(4,'Full Size',2500,16,0,18,8,1450),(5,'Luxury Sedan',2900,20,0,22,9,1950),(6,'SM Station Wagon',2300,12,4,15,8,1300),(7,'LG Station Wagon',2600,14,6,18,9,1600),(8,'SM Pickup',2800,10,10,12,6,1200),(9,'LG Pickup',3100,14,14,15,8,1500),(10,'Van',3100,22,6,20,10,1550);
 /*!40000 ALTER TABLE `bodies` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -198,11 +199,12 @@ DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(40) NOT NULL,
-  `password` varchar(40) NOT NULL,
+  `password` varchar(40) DEFAULT NULL,
+  `hash` varchar(40) DEFAULT NULL,
   `created` datetime NOT NULL,
   `email` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -211,6 +213,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'kurt','75d7a070f6a93475481550944198932307592e0b',NULL,'2012-03-28 16:43:16','klakin2003@yahoo.com');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -228,23 +231,33 @@ CREATE TABLE `vehicles` (
   `body_id` int(10) unsigned NOT NULL,
   `crew` smallint(5) unsigned NOT NULL,
   `powerplant_id` int(10) unsigned NOT NULL,
-  `chassis` varchar(1) NOT NULL,
-  `suspension` varchar(1) NOT NULL,
+  `plantHp` int(11) NOT NULL,
+  `plantCharge` int(11) NOT NULL,
+  `chassis_id` smallint(1) NOT NULL,
+  `suspension_id` smallint(1) NOT NULL,
   `tire_id` int(10) unsigned NOT NULL,
   `tireLFhp` int(11) NOT NULL,
   `tireRFhp` int(11) NOT NULL,
   `tireLBhp` int(11) NOT NULL,
+  `tireLB2hp` int(11) NOT NULL,
   `tireRBhp` int(11) NOT NULL,
+  `tireRB2hp` int(11) NOT NULL,
   `armorF` int(11) NOT NULL,
   `armorR` int(11) NOT NULL,
   `armorB` int(11) NOT NULL,
   `armorL` int(11) NOT NULL,
   `armorT` int(11) NOT NULL,
   `armorU` int(11) NOT NULL,
+  `hpF` int(11) NOT NULL,
+  `hpB` int(11) NOT NULL,
+  `hpR` int(11) NOT NULL,
+  `hpL` int(11) NOT NULL,
+  `hpT` int(11) NOT NULL,
+  `hpU` int(11) NOT NULL,
   `cost` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -253,6 +266,7 @@ CREATE TABLE `vehicles` (
 
 LOCK TABLES `vehicles` WRITE;
 /*!40000 ALTER TABLE `vehicles` DISABLE KEYS */;
+INSERT INTO `vehicles` VALUES (11,'Little Stinger',0,1,0,2,0,0,3,2,2,7,7,7,0,7,0,36,30,35,30,10,10,36,35,30,30,10,10,5010),(12,'Bad Boy',0,2,0,3,8,100,3,2,3,9,9,9,0,9,0,34,25,30,25,10,10,34,30,25,25,10,10,5738),(13,'Ghetto Blaster',0,5,1,4,10,100,4,3,4,10,10,10,0,10,0,40,26,35,26,10,10,40,35,26,26,10,10,14094);
 /*!40000 ALTER TABLE `vehicles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -273,7 +287,7 @@ CREATE TABLE `vehicles_weapons` (
   PRIMARY KEY (`id`),
   KEY `vehicle_id` (`vehicle_id`),
   KEY `weapon_id` (`weapon_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -282,6 +296,7 @@ CREATE TABLE `vehicles_weapons` (
 
 LOCK TABLES `vehicles_weapons` WRITE;
 /*!40000 ALTER TABLE `vehicles_weapons` DISABLE KEYS */;
+INSERT INTO `vehicles_weapons` VALUES (9,11,5,'F',10,4),(10,11,1,'B',20,3),(11,12,4,'F',10,5),(12,12,1,'B',20,3),(13,13,7,'F',10,6),(14,13,2,'B',20,4),(15,13,3,'R',5,4),(16,13,3,'L',5,4);
 /*!40000 ALTER TABLE `vehicles_weapons` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -331,4 +346,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-03-27 16:39:13
+-- Dump completed on 2012-03-28 19:08:01
